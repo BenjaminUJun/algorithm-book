@@ -2,12 +2,16 @@ package me.wwsun.list;
 
 import java.util.Iterator;
 
-public class MyArrayList<T> implements Iterable<T> {
+/**
+ *
+ * @param <E> is the type of elements in this list
+ */
+public class MyArrayList<E> implements Iterable<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
 
     private int theSize;
-    private T[] theItems;
+    private E[] theItems;
 
     public MyArrayList() {
         clear();
@@ -21,8 +25,8 @@ public class MyArrayList<T> implements Iterable<T> {
     public void ensureCapacity(int newCapacity) {
         if (newCapacity < theSize) return;
 
-        T[] old = theItems;
-        theItems = (T[]) new Object[newCapacity];
+        E[] old = theItems;
+        theItems = (E[]) new Object[newCapacity];
         for (int i = 0; i < size(); i++) {
             theItems[i] = old[i];
         }
@@ -40,15 +44,15 @@ public class MyArrayList<T> implements Iterable<T> {
         ensureCapacity(size());
     }
 
-    public T get(int index) {
+    public E get(int index) {
         if (index < 0 || index >= size()) throw new ArrayIndexOutOfBoundsException();
 
         return theItems[index];
     }
 
-    public T set(int index, T newVal) {
+    public E set(int index, E newVal) {
         if (index < 0 || index >= size()) throw new ArrayIndexOutOfBoundsException();
-        T old = theItems[index];
+        E old = theItems[index];
         theItems[index] = newVal;
         return old;
     }
@@ -56,11 +60,11 @@ public class MyArrayList<T> implements Iterable<T> {
     /**
      * add the element to the end of list
      *
-     * @param x is the element you want to add
+     * @param element is the element you want to add
      * @return true if add successfully, otherwise return false
      */
-    public boolean add(T x) {
-        add(size(), x);
+    public boolean add(E element) {
+        add(size(), element);
         return true;
     }
 
@@ -68,19 +72,19 @@ public class MyArrayList<T> implements Iterable<T> {
      * add the element to the specific position
      *
      * @param index is the position you want to insert the element
-     * @param x     is the element you want to insert
+     * @param element     is the element you want to insert
      */
-    public void add(int index, T x) {
+    public void add(int index, E element) {
         if (theItems.length == size()) ensureCapacity(size() * 2 + 1);
         for (int i = theSize; i > index; i--) {
             theItems[i] = theItems[i - 1];
         }
-        theItems[index] = x;
+        theItems[index] = element;
         theSize++;
     }
 
-    public T remove(int index) {
-        T removeItem = theItems[index];
+    public E remove(int index) {
+        E removeItem = theItems[index];
         for (int i = index; i < size() - 1; i++) {
             theItems[i] = theItems[i + 1];
         }
@@ -89,12 +93,12 @@ public class MyArrayList<T> implements Iterable<T> {
     }
 
 
-    public Iterator<T> iterator() {
+    public Iterator<E> iterator() {
         return new ArrayListIterator();
     }
 
     // inner class
-    private class ArrayListIterator implements java.util.Iterator<T> {
+    private class ArrayListIterator implements java.util.Iterator<E> {
 
         private int current = 0;
 
@@ -102,7 +106,7 @@ public class MyArrayList<T> implements Iterable<T> {
             return current < size();
         }
 
-        public T next() {
+        public E next() {
             if (!hasNext()) throw new java.util.NoSuchElementException();
             return theItems[current++];
         }
