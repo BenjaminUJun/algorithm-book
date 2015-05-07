@@ -5,10 +5,6 @@ import me.wwsun.list.MyLinkedList;
 
 public class ListTest extends TestCase {
 
-    public void testMyArrayList() {
-
-    }
-
     public void testMyLinkedList() {
         MyLinkedList<Integer> list = new MyLinkedList<Integer>();
         list.add(1);
