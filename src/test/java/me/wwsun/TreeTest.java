@@ -11,6 +11,9 @@ public class TreeTest extends TestCase {
         bst.insert(3);
         bst.insert(6);
 
+        bst.printTree();
+        System.out.println("Tree height:\t" + bst.height());
+
         assertEquals(bst.findMax(), new Integer(6));
         assertEquals(bst.findMin(), new Integer(3));
     }
