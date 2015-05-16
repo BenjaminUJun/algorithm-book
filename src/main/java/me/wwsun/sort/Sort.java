@@ -40,40 +40,43 @@ public final class Sort {
 
     /**
      * Internal method that makes recursive calls
-     * @param a an array of Comparable items
+     *
+     * @param a        an array of Comparable items
      * @param tmpArray an array to place the merged result
-     * @param left the left-most index of the subarray
-     * @param right the right-most index of the subarray
-     * @param <E> the type of elements contained in the array
+     * @param left     the left-most index of the subarray
+     * @param right    the right-most index of the subarray
+     * @param <E>      the type of elements contained in the array
      */
     private static <E extends Comparable<? super E>> void mergeSort(E[] a, E[] tmpArray, int left, int right) {
         if (left < right) {
             int center = (left + right) / 2;
             mergeSort(a, tmpArray, left, center);
-            mergeSort(a, tmpArray, center+1, right);
-            merge(a, tmpArray, left, center+1, right);
+            mergeSort(a, tmpArray, center + 1, right);
+            merge(a, tmpArray, left, center + 1, right);
         }
     }
 
     /**
      * Mergesort algorithm
-     * @param a an array of Comparable items
+     *
+     * @param a   an array of Comparable items
      * @param <E> is the type of elements contained in the array
      */
     public static <E extends Comparable<? super E>> void mergeSort(E[] a) {
-        E [] tmpArray = (E []) new Comparable[a.length];
-        mergeSort(a, tmpArray, 0, a.length-1);
+        E[] tmpArray = (E[]) new Comparable[a.length];
+        mergeSort(a, tmpArray, 0, a.length - 1);
     }
 
 
     /**
      * Internal method that merges two sorted halves of a subarray
-     * @param a an array of Comparable items
+     *
+     * @param a        an array of Comparable items
      * @param tmpArray an array to place the merged result
-     * @param left the left-most index of the subarray
-     * @param right the index of the start of the second half
+     * @param left     the left-most index of the subarray
+     * @param right    the index of the start of the second half
      * @param rightEnd the right-most index of the subarray
-     * @param <E> the type of elements contined in this array
+     * @param <E>      the type of elements contined in this array
      */
     private static <E extends Comparable<? super E>> void merge(E[] a, E[] tmpArray, int left, int right, int rightEnd) {
         int leftEnd = right - 1;
@@ -82,23 +85,105 @@ public final class Sort {
 
 
         // main loop
-        while(left <= leftEnd && right <= rightEnd) {
+        while (left <= leftEnd && right <= rightEnd) {
             if (a[left].compareTo(a[right]) <= 0)
-                tmpArray[tmpPos++]= a[left++];
+                tmpArray[tmpPos++] = a[left++];
             else
-                tmpArray[tmpPos++]= a[right++];
+                tmpArray[tmpPos++] = a[right++];
         }
 
-        while(left <= leftEnd)  // copy rest of first half
+        while (left <= leftEnd)  // copy rest of first half
             tmpArray[tmpPos++] = a[left++];
 
-        while(right <= rightEnd) // copy rest of right half
+        while (right <= rightEnd) // copy rest of right half
             tmpArray[tmpPos++] = a[right++];
 
         // copy tmpArray back
         for (int i = 0; i < numElements; i++, rightEnd--) {
             a[rightEnd] = tmpArray[rightEnd];
         }
+    }
+
+    /**
+     * Quicksort algorithm
+     *
+     * @param a   an array of Comparable items
+     * @param <E> the type of elements that contained in this array
+     */
+    public static <E extends Comparable<? super E>> void quicksort(E[] a) {
+
+    }
+
+    private static final int CUTOFF = 3;
+
+    /**
+     * Internal quicksort method that makes recursive calls
+     * Uses median-of-three partitioning and a cutoff of 10
+     *
+     * @param a     an array of Comparable items
+     * @param left  the left-most index of the subarray
+     * @param right the right-most index of the subarray
+     * @param <E>   the type of elements that contained in this array
+     */
+    private static <E extends Comparable<? super E>> void quicksort(E[] a, int left, int right) {
+        if (left + CUTOFF <= right) {
+            E pivot = median3(a, left, right);
+
+            // begin partitioning
+            int i = left, j = right - 1;
+            for (; ; ) {
+                while (a[++i].compareTo(pivot) < 0) {
+                }
+                while (a[--j].compareTo(pivot) > 0) {
+                }
+                if (i < j)
+                    swapReferences(a, i, j);
+                else
+                    break;
+            }
+
+            swapReferences(a, i, right - 1); //restore pivot
+            quicksort(a, left, i - 1);
+            quicksort(a, i + 1, right);
+
+        } else {
+            insertionSort(a, left, right);
+        }
+    }
+
+    /**
+     * Internal insertion sort routine for subarrays that is uesd by quicksort
+     *
+     * @param a     an array of Comparable items
+     * @param left  the left-most index of the subarray
+     * @param right the right-most index of the subarray
+     * @param <E>   the type of elements contained in the array
+     */
+    private static <E extends Comparable<? super E>> void insertionSort(E[] a, int left, int right) {
+        for (int p = left + 1; p <= right; p++) {
+            E tmp = a[p];
+            int j;
+
+            for (j = p; j > left && tmp.compareTo(a[j - 1]) < 0; j--) {
+                a[j] = a[j - 1];
+
+            }
+            a[j] = tmp;
+        }
+    }
+
+    /**
+     * @return median of left, center, and right
+     */
+    private static <E extends Comparable<? super E>> E median3(E[] a, int left, int right) {
+        int center = (left + right) / 2;
+        if (a[center].compareTo(a[left]) < 0) swapReferences(a, left, center);
+        if (a[right].compareTo(a[left]) < 0) swapReferences(a, left, right);
+        if (a[right].compareTo(a[center]) < 0) swapReferences(a, center, right);
+
+        // place pivot at position right-1
+        swapReferences(a, center, right - 1);
+        return a[right - 1];
     }
 
 
