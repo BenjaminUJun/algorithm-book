@@ -1,7 +1,5 @@
 package me.wwsun.sort;
 
-import java.util.Comparator;
-
 public final class Sort {
 
     /**
@@ -38,6 +36,71 @@ public final class Sort {
             percDown(a, 0, i);
         }
     }
+
+
+    /**
+     * Internal method that makes recursive calls
+     * @param a an array of Comparable items
+     * @param tmpArray an array to place the merged result
+     * @param left the left-most index of the subarray
+     * @param right the right-most index of the subarray
+     * @param <E> the type of elements contained in the array
+     */
+    private static <E extends Comparable<? super E>> void mergeSort(E[] a, E[] tmpArray, int left, int right) {
+        if (left < right) {
+            int center = (left + right) / 2;
+            mergeSort(a, tmpArray, left, center);
+            mergeSort(a, tmpArray, center+1, right);
+            merge(a, tmpArray, left, center+1, right);
+        }
+    }
+
+    /**
+     * Mergesort algorithm
+     * @param a an array of Comparable items
+     * @param <E> is the type of elements contained in the array
+     */
+    public static <E extends Comparable<? super E>> void mergeSort(E[] a) {
+        E [] tmpArray = (E []) new Comparable[a.length];
+        mergeSort(a, tmpArray, 0, a.length-1);
+    }
+
+
+    /**
+     * Internal method that merges two sorted halves of a subarray
+     * @param a an array of Comparable items
+     * @param tmpArray an array to place the merged result
+     * @param left the left-most index of the subarray
+     * @param right the index of the start of the second half
+     * @param rightEnd the right-most index of the subarray
+     * @param <E> the type of elements contined in this array
+     */
+    private static <E extends Comparable<? super E>> void merge(E[] a, E[] tmpArray, int left, int right, int rightEnd) {
+        int leftEnd = right - 1;
+        int tmpPos = left;
+        int numElements = rightEnd - left + 1;
+
+
+        // main loop
+        while(left <= leftEnd && right <= rightEnd) {
+            if (a[left].compareTo(a[right]) <= 0)
+                tmpArray[tmpPos++]= a[left++];
+            else
+                tmpArray[tmpPos++]= a[right++];
+        }
+
+        while(left <= leftEnd)  // copy rest of first half
+            tmpArray[tmpPos++] = a[left++];
+
+        while(right <= rightEnd) // copy rest of right half
+            tmpArray[tmpPos++] = a[right++];
+
+        // copy tmpArray back
+        for (int i = 0; i < numElements; i++, rightEnd--) {
+            a[rightEnd] = tmpArray[rightEnd];
+        }
+    }
+
 
     /**
      * Internal method for heapsort that is used in deleteMax and buildHeap
