@@ -6,6 +6,12 @@
 
 1. [数据结构与算法分析——Java语言描述,第2版](http://book.douban.com/subject/3351237/)
 2. [算法，英文版 第4版](http://book.douban.com/subject/10432347/)
+3. [Princeton Algorithm Website: http://algs4.cs.princeton.edu/home/](http://algs4.cs.princeton.edu/home/)
+
+## Online Course
+
+1. [Princeton Algorithm Part 1](https://www.coursera.org/course/algs4partI)
+1. [Princeton Algorithm Part 2](https://www.coursera.org/course/algs4partII)
 
 ## Reading
 
