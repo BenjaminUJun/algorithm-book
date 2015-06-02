@@ -352,7 +352,7 @@ public final class StdRandom {
      * Unit test.
      */
     public static void main(String[] args) {
-        int N = Integer.parseInt(args[0]);
+        int N = Integer.parseInt("10"); // input a number
         if (args.length == 2) StdRandom.setSeed(Long.parseLong(args[1]));
         double[] t = { .5, .3, .1, .1 };
 

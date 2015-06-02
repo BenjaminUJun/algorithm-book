@@ -2,6 +2,7 @@ package me.wwsun.search;
 
 import stdlib.In;
 import stdlib.StdIn;
+import stdlib.StdOut;
 
 import java.util.Arrays;
 
@@ -22,22 +23,20 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
-        In in = new In("data/largeT.txt");
-        int[] whitelist = in.readAllInts();
+        In in = new In("data/largeW.txt"); // or tinyW.txt
+        int[] whitelist = in.readAllInts(); // target file
 
         // sort the array
         Arrays.sort(whitelist);
 
-        System.out.println("Please input a number you want to search: ");
+        In check = new In("data/largeT.txt"); // or use tinyT.txt
 
-        while (!StdIn.isEmpty()) {
-            int key = StdIn.readInt();
-            int pos = rank(key, whitelist);
-            if (pos == -1) {
-                System.out.println("Oops!" + key + " is not found!");
-            } else {
-                System.out.println("Key " + key + " is found!");
-            }
+        // check if the items in the target file or not
+        while (!check.isEmpty()) {
+            // If current number is not in the whitelist, print it!
+            int key = check.readInt();
+            if (rank(key, whitelist) < 0)
+                StdOut.println(key);
         }
     }
 }
