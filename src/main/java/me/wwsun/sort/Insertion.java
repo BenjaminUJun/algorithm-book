@@ -3,10 +3,10 @@ package me.wwsun.sort;
 import stdlib.In;
 import stdlib.StdOut;
 
-public class Selection {
+public class Insertion {
 
     // this class should not be instantiate
-    private Selection() { }
+    private Insertion() { }
 
     /**
      * Rearranges the array in ascending order, using the natural order
@@ -15,13 +15,9 @@ public class Selection {
     public static void sort(Comparable[] a) {
         int N = a.length;
         for (int i = 0; i < N; i++) {
-
-            // exchange a[i] with smallest entry in a[i+1...N]
-            int min = i; // index of minimal entry
-            for (int j = i+1; j < N; j++) {
-                if( less(a[j], a[min])) min = j;
+            for (int j = i; j > 0 && less(a[j], a[j-1]); j--) {
+                exch(a, j, j-1);
             }
-            exch(a, i, min);
         }
     }
 
