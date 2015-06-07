@@ -1,4 +1,4 @@
-package me.wwsun;
+package me.wwsun.others;
 
 import junit.framework.TestCase;
 import me.wwsun.sort.Sort;
