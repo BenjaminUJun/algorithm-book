@@ -31,11 +31,31 @@ public class FixedCapacityStack<E> {
     }
 
     public void push(E item) {
+
+        // if current stack is full, resize the stack
+        if (N == a.length) resize(2 * a.length);
         a[N++] = item;
     }
 
     public E pop() {
-        return a[--N];
+        E item = a[--N];
+        a[N] = null; // 避免对象游离
+        if (N > 0 && N == a.length / 4) resize(a.length / 2);
+        return item;
+    }
+
+
+    /**
+     * resize current stack, move current stack elements to a new stack
+     *
+     * @param newSize the size of new stack
+     */
+    private void resize(int newSize) {
+        E[] temp = (E[]) new Object[newSize];
+        for (int i = 0; i < N; i++) {
+            temp[i] = a[i];
+        }
+        a = temp;
     }
 
 
